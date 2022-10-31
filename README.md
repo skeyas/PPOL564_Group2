@@ -7,3 +7,4 @@ This repository will hold work for the PPOL564 Final Project.
 ## Data Sources
 ### CDC Place Data
 ### Environmental Justice Index
+### Toxic Release Inventory

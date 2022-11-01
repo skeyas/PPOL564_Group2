@@ -5,7 +5,11 @@
 Data imported into Redivis platform:
 
 [Environmental Justice Index](https://redivis.com/datasets/mwa0-b9v8xcbzk)
+
 [Toxic Release Inventory (TRI) Program](https://redivis.com/datasets/6fps-7kzmtse26)
+
 [EPA Air Quality Data](https://redivis.com/datasets/rm8j-2kj2by1mg)
+
 [CDC PLACES](https://redivis.com/datasets/scph-79c567z4z)
+
 [Census data](https://redivis.com/datasets/5xxe-c5a3fw2e2/tables)

@@ -7,6 +7,10 @@ class TRI:
 	def clean_column_names(df):
 		df.columns=df.columns.str.replace(r'\d|-|\.','').str.strip()
 		return df
+	
+	@staticmethod
+	def return_records_present_in_both_sets(df1, df2):
+		return df2[TRI.clean_column_names(df2)["TRIFD"].isin(TRI.clean_column_names(df1)["TRIFD"])]
 		
 	@staticmethod
 	def subset_and_geocode(df):

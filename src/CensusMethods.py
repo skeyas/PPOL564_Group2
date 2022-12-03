@@ -1,5 +1,7 @@
 import pandas as pd
 import geopandas as gpd
+import numpy as np
+
 import requests
 
 from us import states
@@ -74,6 +76,23 @@ class CensusMethods:
 		df['non_white_percentage']= 1-(df['white'] / df['total_pop'])
 		return df.reset_index()
 
+	def create_county_level_asthma_subset(self, df):
+		df = df.dissolve(by = ["STATEFP", "COUNTYFP"], aggfunc = "sum")
+		df['white_percentage']=df['white'] / df['total_pop']
+		df['non_white_percentage']= 1-(df['white'] / df['total_pop'])
+		df['asthma_percentage']=df['asthma_cases'] / df['total_pop']
+		
+		conditions_nw = [
+			(df['white_percentage'] >= 0.7),
+			(df['white_percentage'] < 0.7),
+		]
+
+		values_nw = [df.asthma_percentage, 0]
+		values_w = [0, df.asthma_percentage]
+
+		df['asthma_non_white'] = np.select(conditions_nw, values_w)
+		df['asthma_white'] = np.select(conditions_nw, values_nw)
+		return df.reset_index()
 
 	
 	

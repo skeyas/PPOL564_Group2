@@ -3,9 +3,12 @@ import json
 import matplotlib.pyplot as plt
 import plotly.express as px
 import pandas as pd
+import geopandas as gpd
 
 from us import states
 from urllib.request import urlopen
+from shapely.geometry import Point, Polygon
+
 
 
 class MapGenerator:
@@ -83,3 +86,42 @@ class MapGenerator:
 		# Set title
 		ax.set_title('Non-white population (%) in the United States', fontdict = {'fontsize': '25', 'fontweight' : '3'})
 	
+	
+	@staticmethod
+	def create_asthma_population_plot_for_state_county_with_race_and_facility(asthma_df, tri_df, state):
+				
+		# Create subplots
+		fig, ax = plt.subplots(1, 1, figsize = (20, 10))
+
+		# Plot data
+		asthma_df[asthma_df["white_percentage"] >= 0.7].plot(column = "asthma_white",
+							   ax = ax,
+							   cmap = "Blues",
+							   norm=plt.Normalize(vmin=0, vmax=0.14),
+								label = "Asthma rates (white)",
+							   legend = True)
+
+		asthma_df[asthma_df["white_percentage"] < 0.7].plot(column = "asthma_non_white",
+							   ax = ax,
+							   cmap = "Greens",
+							   norm=plt.Normalize(vmin=0, vmax=0.14),
+									  label = "Asthma rates (non-white)",
+								legend = True)
+
+		geom = [Point(x) for x in tri_df.geocoded]
+		geo_df = gpd.GeoDataFrame(tri_df, 
+								  crs = {'init':'EPSG:4326'}, 
+								  geometry = geom)
+
+
+		_tmp = plt.xticks(rotation=90)
+		markersize = (geo_df["STACK AIR"] + geo_df["FUGITIVE AIR"]) / 200
+		geo_df["geometry"].plot(ax=ax, edgecolor="Red", markersize=markersize, facecolor="None")
+
+
+		# Stylize plots
+		plt.style.use('bmh')
+
+		# Set title
+		ax.set_title(f'Asthma cases grouped by race in in {eval(f"states.{state}.name")}', fontdict = {'fontsize': '25', 'fontweight' : '3'})
+

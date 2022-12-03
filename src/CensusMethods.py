@@ -9,6 +9,8 @@ class CensusMethods:
 	def __init__(self, api_key):
 		self.c = Census(api_key)
 		self.states_fips = states.mapping('abbr', 'fips')
+		self.non_contiguous_us = ["MP", "PR", "GU", "AS", "AK", "VI", "HI"]
+
 	
 	def retrieve_all_variables(self):
 		# List of all variables: https://api.census.gov/data/2019/acs/acs5/variables.html
@@ -60,16 +62,19 @@ class CensusMethods:
 		census['white_percentage']=census.white / census.total_pop
 		census['non_white_percentage']= 1-(census.white / census.total_pop)
 		return census
+
+	def create_contiguous_us_df_with_tract_level_shapefiles(self, census, tract):
+		us_merge = pd.merge(tract, census, on = "GEOID")
+		us_merge["STATE"] = us_merge["STATEFP"].apply(lambda x: list(self.states_fips.keys())[list(self.states_fips.values()).index(x)])
+		return us_merge[~us_merge["STATE"].isin(self.non_contiguous_us)]
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	def create_county_level_subset(self, df):
+		df = df.dissolve(by = ["STATEFP", "COUNTYFP"], aggfunc = "sum")
+		df['white_percentage']=df['white'] / df['total_pop']
+		df['non_white_percentage']= 1-(df['white'] / df['total_pop'])
+		return df.reset_index()
+
+
 	
 	
 	

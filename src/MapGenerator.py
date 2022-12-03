@@ -1,3 +1,9 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+
+from us import states
+
+
 class MapGenerator:
 	@staticmethod
 	def create_nonwhite_population_plot_for_state(df, state):
@@ -15,6 +21,3 @@ class MapGenerator:
 
 		# Set title
 		ax.set_title(f'Non-white population (%) in {eval(f"states.{state}.name")}', fontdict = {'fontsize': '25', 'fontweight' : '3'})
-	
-	@staticmethod
-	

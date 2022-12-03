@@ -44,10 +44,10 @@ class CensusMethods:
 			print("Invalid state")
 			
 	def retrieve_census_tract_shapefile_for_state(self, state):		
-		q = f'https://www2.census.gov/geo/tiger/TIGER2019/TRACT/tl_2019_{self.state_fips[state]}_tract.zip'
+		q = f'https://www2.census.gov/geo/tiger/TIGER2019/TRACT/tl_2019_{self.states_fips[state]}_tract.zip'
 		return gpd.read_file(q)  
 		
-	def retrieve_census_tract_shapefile_for_state_list(states):
+	def retrieve_census_tract_shapefile_for_state_list(self, states):
 		dfs = []
 		for s in states:
 			try:

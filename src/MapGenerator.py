@@ -109,6 +109,8 @@ class MapGenerator:
 							   norm=plt.Normalize(vmin=0, vmax=0.14),
 									  label = "Asthma rates (non-white)",
 								legend = True)
+								
+		fig.text(.5, .05, "Green: heatmap for asthma rates in areas with a high non-white population, Blue: heatmap for asthma rates in areas with a low non-white population", ha='center')
 
 		geom = [Point(x) for x in tri_df.geocoded]
 		geo_df = gpd.GeoDataFrame(tri_df, 

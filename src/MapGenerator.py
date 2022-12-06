@@ -28,7 +28,7 @@ class MapGenerator:
 
 		# Set title
 		ax.set_title(f'Non-white population (%) in {eval(f"states.{state}.name")}', fontdict = {'fontsize': '25', 'fontweight' : '3'})
-		
+		plt.savefig(f'../output/Non-white population (%) in {eval(f"states.{state}.name")}.png')
 		
 	@staticmethod
 	def create_nonwhite_population_plot_for_state_county(df, state):
@@ -47,6 +47,8 @@ class MapGenerator:
 
 		# Set title
 		ax.set_title(f'Non-white population (%) in {eval(f"states.{state}.name")}, counties', fontdict = {'fontsize': '25', 'fontweight' : '3'})
+		plt.savefig(f'../output/Non-white population (%) in {eval(f"states.{state}.name")}, counties.png')
+		
 		
 	@staticmethod
 	def create_us_level_population_plot_county(census):
@@ -85,7 +87,7 @@ class MapGenerator:
 
 		# Set title
 		ax.set_title('Non-white population (%) in the United States', fontdict = {'fontsize': '25', 'fontweight' : '3'})
-	
+		plt.savefig('../output/Non-white population (%) in the United States.png')
 	
 	@staticmethod
 	def create_asthma_population_plot_for_state_county_with_race_and_facility(asthma_df, tri_df, state):
@@ -123,5 +125,7 @@ class MapGenerator:
 		plt.style.use('bmh')
 
 		# Set title
-		ax.set_title(f'Asthma cases grouped by race in in {eval(f"states.{state}.name")}', fontdict = {'fontsize': '25', 'fontweight' : '3'})
+		ax.set_title(f'Asthma cases grouped by race in in {eval(f"states.{state}.name")}', 
+		fontdict = {'fontsize': '25', 'fontweight' : '3'})
+		plt.savefig(f'../output/Asthma cases grouped by race in in {eval(f"states.{state}.name")}.png')
 

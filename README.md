@@ -5,15 +5,23 @@
 This repository will hold work for the PPOL564 Final Project.
 
 ## Data Sources
-### CDC Places Data
-### Environmental Justice Index
-### Toxic Release Inventory
-### Air Quality Index
-### Census data / American Community Survey data
+1. CDC Places Data
+1. Toxic Release Inventory
+1. Census data / American Community Survey data
 
-# Directory Structure
+## Directory Structure
 1. input: information about data
 1. output: generated dataframes and other pieces of information
 1. scratch: notebooks for preliminary data exploration
 1. src: final code
-1. test: tests for the final code
+
+## How to run
+1. This repository uses a single notebook called [0_driver](src/0_driver.py).
+1. It requires a Census API key which it reads from a saved credentials file.
+    1. In order to retrieve this, create a file called either config.json or a creds.yml in the root of the directory, with the below key names.
+		```"CENSUS": {
+			"API_KEY" : "36bea20f9d199bf3286dd86ad0b20842fb400195"
+		}```
+1. Running this file alone will import our other files, which are written as Python classes.
+1. It requires an input from the keyboard - when prompted, enter the state abbreviations you wish to examine through maps.
+![How to enter values](./assets/user_input_example.png)

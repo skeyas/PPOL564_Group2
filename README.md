@@ -20,7 +20,8 @@ This repository will hold work for the PPOL564 Final Project.
 1. It requires a Census API key which it reads from a saved credentials file.
     1. In order to retrieve this, create a file called either config.json or a creds.yml in the root of the directory, with the below key names.
 	
-		``` "CENSUS": {
+		```
+			"CENSUS": {
 			"API_KEY" : "36bea20f9d199bf3286dd86ad0b20842fb400195"
 		}```
 		

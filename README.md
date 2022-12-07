@@ -4,6 +4,8 @@
 
 This repository will hold work for the PPOL564 Final Project.
 
+[All csv datasets used can be found at this link.](https://drive.google.com/drive/folders/1ve6YTp5sn9QkpjGCJBIgosvKKT3Ypwd7?usp=share_link)
+
 ## Data Sources
 1. CDC Places Data
 1. Toxic Release Inventory

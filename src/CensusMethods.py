@@ -26,7 +26,7 @@ class CensusMethods:
 		return self.all_vars_df.loc[vars_to_retrieve]
 		
 	
-		
+	#retrieve data according to year and state abbreviation
 	def retrieve_census_data_by_state_and_year(self, fields, state, county, tract, year):
 		return self.c.acs5.state_county_tract(fields = fields,
 										  state_fips = eval(f"states.{state}.fips"),
@@ -34,24 +34,41 @@ class CensusMethods:
 										  tract = tract,
 										  year = year)
 	
+	#retrieve data for list of states
 	def retrieve_census_data_for_list_of_states_by_year(self, fields, states, county, tract, year):
 		return {state: self.retrieve_census_data_by_state_and_year(fields, state, county, tract, year) for state in states}
 										  
+	
 	def create_geocoded_state_df_with_demographics_data(self, state, df):
 		try:
+			#retrieve shapefile for state
 			tract = gpd.read_file(f"https://www2.census.gov/geo/tiger/TIGER2019/TRACT/tl_2019_{self.states_fips[state]}_tract.zip")
 			tract = tract.to_crs(epsg = 4326)
+			
+			#generate GEOID from fields
 			df["GEOID"] = df["state"] + df["county"] + df["tract"]
+			
+			#computer non-white percentage
 			df['non_white_percentage'] = 1 - (df.B03002_003E / df.B01003_001E)
-			return tract.merge(df, on = "GEOID")
+			
+			print(tract.shape)
+			print(df.shape)
+			
+			merged = tract.merge(df, on = "GEOID")
+			
+			print(merged.shape)
+			
+			return merged
 		except:
 			print("Invalid state")
 			
-	def retrieve_census_tract_shapefile_for_state(self, state):		
+	def retrieve_census_tract_shapefile_for_state(self, state):	
+		#retrieve shapefile for state
 		q = f'https://www2.census.gov/geo/tiger/TIGER2019/TRACT/tl_2019_{self.states_fips[state]}_tract.zip'
 		return gpd.read_file(q)  
 		
 	def retrieve_census_tract_shapefile_for_state_list(self, states):
+		#retrieve shapefile for each state in list; skip if the state fips code does not exist
 		dfs = []
 		for s in states:
 			try:
@@ -65,19 +82,30 @@ class CensusMethods:
 		census['non_white_percentage']= 1-(census.white / census.total_pop)
 		return census
 
+	#remove states not in contiguous US
 	def create_contiguous_us_df_with_tract_level_shapefiles(self, census, tract):
+		print(census.shape)
+		print(tract.shape)
+		
 		us_merge = pd.merge(tract, census, on = "GEOID")
+		print(us_merge.shape)
 		us_merge["STATE"] = us_merge["STATEFP"].apply(lambda x: list(self.states_fips.keys())[list(self.states_fips.values()).index(x)])
 		return us_merge[~us_merge["STATE"].isin(self.non_contiguous_us)]
 	
 	def create_county_level_subset(self, df):
+		#dissolve to county level
 		df = df.dissolve(by = ["STATEFP", "COUNTYFP"], aggfunc = "sum")
+		
+		#create percentage columns for white and nonwhite
 		df['white_percentage']=df['white'] / df['total_pop']
 		df['non_white_percentage']= 1-(df['white'] / df['total_pop'])
 		return df.reset_index()
 
 	def create_county_level_asthma_subset(self, df):
+		#create county level dataframe
 		df = df.dissolve(by = ["STATEFP", "COUNTYFP"], aggfunc = "sum")
+		
+		#create percentage columns
 		df['white_percentage']=df['white'] / df['total_pop']
 		df['non_white_percentage']= 1-(df['white'] / df['total_pop'])
 		df['asthma_percentage']=df['asthma_cases'] / df['total_pop']
@@ -90,6 +118,7 @@ class CensusMethods:
 		values_nw = [df.asthma_percentage, 0]
 		values_w = [0, df.asthma_percentage]
 
+		#Create column of asthma rates for counties above or below 70% white
 		df['asthma_non_white'] = np.select(conditions_nw, values_w)
 		df['asthma_white'] = np.select(conditions_nw, values_nw)
 		return df.reset_index()

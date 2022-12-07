@@ -18,6 +18,7 @@ class CDC:
 		
 	@staticmethod
 	def format_location_ids_for_merging(df):
+		#convert to same datatype, pad for merging
 		df['LocationID'] = df.LocationID.astype(str)
 		df['GEOID'] = df.LocationID.str.pad(width = 11,
                                                      side = "left",

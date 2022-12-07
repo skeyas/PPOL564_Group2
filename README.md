@@ -18,7 +18,7 @@ This repository will hold work for the PPOL564 Final Project.
 1. src: final code
 
 ## How to run
-1. This repository uses a single notebook called [0_driver](src/0_driver.py).
+1. This repository uses a single notebook called [0_driver](src/0_driver.ipynb).
 1. It requires a Census API key which it reads from a saved credentials file.
     1. In order to retrieve this, create a file called either config.json or a creds.yml in the root of the directory, with the below key names.
 	

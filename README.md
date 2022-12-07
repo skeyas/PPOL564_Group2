@@ -24,6 +24,7 @@ This repository will hold work for the PPOL564 Final Project.
 			"API_KEY" : "36bea20f9d199bf3286dd86ad0b20842fb400195"
 		}```
 		
-1. Running this file alone will import our other files, which are written as Python classes.
+1. Running this file alone will import our other files, which are written as Python classes, and use the functions within them to process data and generate maps.
 1. It requires an input from the keyboard - when prompted, enter the state abbreviations you wish to examine through maps.
-![How to enter values](https://github.com/skeyas/PPOL564_Group2/blob/master/assets/user_input_example.PNG)
+    ![How to enter values](https://github.com/skeyas/PPOL564_Group2/blob/master/assets/user_input_example.PNG)
+    1. Upon entering the state abbreviations, allow the program to continue executing. When it finishes, it will store all output images in the output directory.

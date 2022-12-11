@@ -29,7 +29,7 @@ class MapGenerator:
 		# Set title
 		ax.set_title(f'Non-white population (%) in {eval(f"states.{state}.name")}', fontdict = {'fontsize': '25', 'fontweight' : '3'})
 		plt.savefig(f'../output/Non-white population (%) in {eval(f"states.{state}.name")}.png')
-		
+
 	@staticmethod
 	def create_nonwhite_population_plot_for_state_county(df, state):
 		df = df[['geometry','non_white_percentage']]
@@ -110,7 +110,8 @@ class MapGenerator:
 									  label = "Asthma rates (non-white)",
 								legend = True)
 								
-		fig.text(.5, .05, "Green: heatmap for asthma rates in areas with a high non-white population, Blue: heatmap for asthma rates in areas with a low non-white population", ha='center')
+								
+		fig.text(.5, .05, "Green: heatmap for asthma rates in areas with a high non-white population, \n Blue: heatmap for asthma rates in areas with a low non-white population,\n Red circles: TRI facilities with size representing magnitude of emissions\n", ha='center')
 
 		geom = [Point(x) for x in tri_df.geocoded]
 		geo_df = gpd.GeoDataFrame(tri_df, 
@@ -127,7 +128,8 @@ class MapGenerator:
 		plt.style.use('bmh')
 
 		# Set title
-		ax.set_title(f'Asthma cases grouped by race in in {eval(f"states.{state}.name")}', 
+		ax.set_title(f'Asthma cases grouped by race in {eval(f"states.{state}.name")}', 
 		fontdict = {'fontsize': '25', 'fontweight' : '3'})
 		plt.savefig(f'../output/Asthma cases grouped by race in in {eval(f"states.{state}.name")}.png')
 
+	

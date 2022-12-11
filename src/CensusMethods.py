@@ -37,7 +37,14 @@ class CensusMethods:
 	#retrieve data for list of states
 	def retrieve_census_data_for_list_of_states_by_year(self, fields, states, county, tract, year):
 		return {state: self.retrieve_census_data_by_state_and_year(fields, state, county, tract, year) for state in states}
-										  
+		
+	
+	def recode_column_names_for_retrieved_data(self, df, relevant_values):
+		census = pd.concat([pd.DataFrame(df[state]) for state in df])
+		d0 = relevant_values['label2']
+		d = d0.to_dict()
+		d.update({'state':'state','county':'county','tract':'tract'})
+		return census.rename(columns=d)										  
 	
 	def create_geocoded_state_df_with_demographics_data(self, state, df):
 		try:
@@ -51,13 +58,13 @@ class CensusMethods:
 			#computer non-white percentage
 			df['non_white_percentage'] = 1 - (df.B03002_003E / df.B01003_001E)
 			
-			print(tract.shape)
-			print(df.shape)
-			
+			print(f"Shape of tract level shapefile df: {tract.shape}")
+			print(f"Shape of state census data df: {df.shape}")
+						
 			merged = tract.merge(df, on = "GEOID")
 			
-			print(merged.shape)
-			
+			print(f"Shape of merged df: {merged.shape}")
+						
 			return merged
 		except:
 			print("Invalid state")

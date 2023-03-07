@@ -25,7 +25,8 @@ This repository will hold work for the PPOL564 Final Project.
 		```
 		{
 			"CENSUS": {
-			"API_KEY" : ""
+				"API_KEY" : ""
+			}
 		}
 		
 		```
